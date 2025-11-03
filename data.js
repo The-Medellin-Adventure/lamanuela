@@ -5,7 +5,7 @@ window.APP_DATA = {
       image: null,
       video: 'videos/escena1.mp4',
       color: 0x4A90E2,
-      initialRotation: { x: 1.493999999999988, y: -0.15900000000000003, z: 1 },
+      initialRotation: { x: 1.5149999999999875, y: 0.012000000000001287, z: 0 },
       avatarText:
         'Bienvenidos al paseo en barco por nuestra hermosa represa. Aquí podrás disfrutar de paisajes únicos y la tranquilidad del agua.',
       hotspots: [
