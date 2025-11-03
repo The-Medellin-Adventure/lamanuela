@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tour Virtual 360° VR - Finca & Represa</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Contenedor principal -->
+  <div id="container"></div>
+
+  <!-- Encabezado -->
+  <div class="header">
+    <div class="logo">🌿 Finca & Represa Virtual Tour</div>
+    <button class="vr-mode-btn" id="vrToggle">📱 Modo VR</button>
+  </div>
+
+  <!-- Indicador de VR -->
+  <div class="vr-indicator" id="vrIndicator">📱 Modo VR Activado - Mueve tu dispositivo</div>
+
+  <!-- Navegación -->
+  <div class="navigation">
+    <button class="nav-btn active" data-scene="barco">⛵ Paseo en Barco</button>
+    <button class="nav-btn" data-scene="entrada">🚪 Entrada</button>
+  </div>
+
+  <!-- Controles de video -->
+  <div class="video-controls" id="videoControls" style="display: none;">
+    <button class="video-control-btn" id="playPauseBtn">⏸️</button>
+    <button class="video-control-btn" id="muteVideoBtn">🔊</button>
+    <div class="video-time" id="videoTime">0:00 / 0:00</div>
+  </div>
+
+  <!-- Panel del avatar -->
+  <div class="avatar-panel">
+    <div class="avatar-container">
+      <div class="avatar-character" id="avatarChar">👨‍🌾</div>
+    </div>
+    <div class="avatar-text" id="avatarText">
+      ¡Bienvenido a nuestro tour virtual! Soy tu guía. Haz clic en los puntos verdes para explorar.
+    </div>
+    <div class="audio-visualizer" id="audioVisualizer"></div>
+    <div class="avatar-controls">
+      <button class="avatar-btn" id="playAudioBtn">▶️ Escuchar</button>
+      <button class="avatar-btn" id="muteBtn">🔊</button>
+    </div>
+  </div>
+
+  <!-- Modal de información -->
+  <div class="info-modal" id="infoModal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle"></div>
+      <div>
+        <button class="modal-audio-btn" id="modalAudioBtn">🔊 Escuchar</button>
+        <button class="close-modal" onclick="closeModal()">×</button>
+      </div>
+    </div>
+    <div class="modal-content">
+      <div class="modal-text" id="modalText"></div>
+      <div class="carousel-container" id="carouselContainer" style="display: none;">
+        <div class="carousel-main" id="carouselMain"></div>
+        <div class="carousel-controls">
+          <button class="carousel-btn" onclick="prevSlide()">◀</button>
+          <div class="carousel-indicators" id="carouselIndicators"></div>
+          <button class="carousel-btn" onclick="nextSlide()">▶</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pantalla de carga -->
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <div>Cargando experiencia 360°...</div>
+  </div>
+
+  <!-- Librerías y scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
