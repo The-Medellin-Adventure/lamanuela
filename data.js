@@ -3,7 +3,7 @@ window.APP_DATA = {
     barco: {
       name: 'Paseo en Barco',
       image: null,
-      video: 'videos/escena1.mp4',
+      video: 'https://pub-37eb7fdba42b482c926213fd31be4459.r2.dev/La%20Manuela%20barco2.mp4',
       color: 0x4A90E2,
       initialRotation: { x: -1.397999999999998, y: 1.2269999999999994, z: 0 },
       avatarText:
