@@ -40,7 +40,7 @@ window.APP_DATA = {
     entrada: {
       name: 'Entrada',
       image: null,
-      video: null,
+      video: "https://pub-37eb7fdba42b482c926213fd31be4459.r2.dev/escena2.mp4",
       color: 0x50C878,
       initialRotation: { x: 0, y: 0, z: 0 },
       avatarText:
