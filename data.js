@@ -42,7 +42,7 @@ window.APP_DATA = {
       image: null,
       video: "https://pub-37eb7fdba42b482c926213fd31be4459.r2.dev/escena2.mp4",
       color: 0x50C878,
-      initialRotation: { x: 0, y: 0, z: 0 },
+      initialRotation: { x: 0.024, y: 1.275, z: 0 },
       avatarText:
         'Esta es la entrada principal de nuestra finca recreacional. Desde aquí comienza tu aventura en la naturaleza.',
       hotspots: [
