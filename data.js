@@ -11,7 +11,7 @@ window.APP_DATA = {
       hotspots: [
         {
           position: { x: 200, y: 0, z: -300 },
-          icon: '🌊',
+          icon: 'icon/info.png',
           title: 'Vista de la Represa',
           text: 'Esta represa tiene más de 50 años de historia. Es hogar de diversas especies de aves acuáticas y peces.',
           voiceText:
@@ -24,7 +24,7 @@ window.APP_DATA = {
         },
         {
           position: { x: -250, y: 50, z: 200 },
-          icon: '🦜',
+          icon: 'icon/vide.png',
           title: 'Fauna Local',
           text: 'En esta zona puedes observar garzas, patos silvestres y ocasionalmente águilas pescadoras.',
           voiceText:
