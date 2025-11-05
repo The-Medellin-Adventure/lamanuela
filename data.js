@@ -87,7 +87,7 @@ window.APP_DATA = {
       ]
     },
 
-     "casa": {
+     "Casa": {
     "name": "Casa Principal",
     "image": null,
     "video": "https://pub-37eb7fdba42b482c926213fd31be4459.r2.dev/escena3(1).mp4",
