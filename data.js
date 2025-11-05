@@ -32,17 +32,60 @@ window.APP_DATA = {
           media: [
             { type: 'image', src: 'https://images.unsplash.com/photo-1444464666168-49d633b86797?w=800' },
             { type: 'image', src: 'https://images.unsplash.com/photo-1535083783855-76ae62b2914e?w=800' }
-          ]
-        }
-      ]
-    },
 
-    entrada: {
+      entrada: {
       name: 'Entrada',
       image: null,
       video: "https://pub-37eb7fdba42b482c926213fd31be4459.r2.dev/escena2.mp4",
       color: 0x50C878,
       initialRotation: { x: -0.045, y: 1.176, z: 0 },
+      avatarText:
+        'Esta es la entrada principal de nuestra finca recreacional. Desde aquí comienza tu aventura en la naturaleza.',
+      hotspots: [
+        {
+          position: { x: 150, y: -50, z: -350 },
+          icon: '🏡',
+          title: 'Casa Principal',
+          text: 'Nuestra casa principal cuenta con 5 habitaciones, sala de estar amplia y todas las comodidades modernas en medio de la naturaleza.',
+          voiceText:
+            'Esta es la casa principal, parce. Tiene cinco habitaciones bien amplias, sala de estar grande y todas las comodidades que necesitás. Todo rodeado de pura naturaleza, ¿sí ve?',
+          media: [
+            { type: 'image', src: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800' },
+            { type: 'image', src: 'https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=800' },
+            { type: 'image', src: 'https://images.unsplash.com/photo-1513584684374-8bab748fbf90?w=800' }
+          ]
+        },
+        {
+          position: { x: -200, y: 30, z: 250 },
+          icon: '🐴',
+          title: 'Caballerizas',
+          text: 'Contamos con 8 caballos de diferentes razas. Ofrecemos paseos guiados por los senderos de la finca.',
+          voiceText:
+            'Acá tenemos ocho caballos, hermano, de diferentes razas. Hacemos paseos guiados por todos los caminos de la finca. Es una experiencia súper chévere.',
+          media: [
+            { type: 'image', src: 'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=800' },
+            { type: 'image', src: 'https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=800' }
+          ]
+        },
+        {
+          position: { x: 0, y: 100, z: -400 },
+          icon: '🌳',
+          title: 'Senderos Naturales',
+          text: 'Más de 3 kilómetros de senderos ecológicos que conectan diferentes puntos de interés en la finca.',
+          voiceText:
+            'Mirá, tenemos más de tres kilómetros de senderos ecológicos que conectan todos los sitios bacanos de la finca. Podés caminar tranquilo y disfrutar del paisaje.',
+          media: [
+            { type: 'image', src: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800' },
+            { type: 'image', src: 'https://images.unsplash.com/photo-1511497584788-876760111969?w=800' },
+            { type: 'image', src: 'https://images.unsplash.com/photo-1473448912268-2022ce9509d8?w=800' }
+    
+
+    Casa: {
+      name: 'Casa Principal',
+      image: null,
+      video: "https://pub-37eb7fdba42b482c926213fd31be4459.r2.dev/escena3(1).mp4",
+      color: 0x50C878,
+      initialRotation: { x: 0, y: 0, z: 0 },
       avatarText:
         'Esta es la entrada principal de nuestra finca recreacional. Desde aquí comienza tu aventura en la naturaleza.',
       hotspots: [
