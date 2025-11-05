@@ -87,40 +87,43 @@ window.APP_DATA = {
       ]
     },
 
-    casa: {
-      name: 'Casa Principal',
-      image: null,
-      video: 'https://pub-37eb7fdba42b482c926213fd31be4459.r2.dev/escena3(1).mp4',
-      color: 0xA67C52,
-      initialRotation: { x: 0, y: 0, z: 0 },
-      avatarText:
-        'Bienvenido a la casa principal. Aquí es donde la comodidad se mezcla con la naturaleza.',
-      hotspots: [
-        {
-          position: { x: 100, y: -40, z: -300 },
-          icon: '🛏️',
-          title: 'Habitaciones',
-          text: 'Cinco habitaciones equipadas con todo lo necesario para una estadía inolvidable.',
-          voiceText:
-            'Estas son las habitaciones principales, muy cómodas, con vista a la naturaleza. Ideales para descansar después del paseo.',
-          media: [
-            { type: 'image', src: 'https://images.unsplash.com/photo-1505691723518-36a5ac3be353?w=800' },
-            { type: 'image', src: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800' }
-          ]
+     "casa": {
+    "name": "Casa Principal",
+    "image": null,
+    "video": "https://pub-37eb7fdba42b482c926213fd31be4459.r2.dev/escena3(1).mp4",
+    "color": 4886754,
+    "initialRotation": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "avatarText": "",
+    "hotspots": [
+      {
+        "position": {
+          "x": 200,
+          "y": 0,
+          "z": -300
         },
-        {
-          position: { x: -250, y: 60, z: 200 },
-          icon: '🔥',
-          title: 'Sala y Chimenea',
-          text: 'Un espacio cálido para compartir momentos junto a la chimenea.',
-          voiceText:
-            'Acá tenemos la sala principal con chimenea, perfecta para relajarse en la noche con un café o una buena charla.',
-          media: [
-            { type: 'image', src: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800' },
-            { type: 'image', src: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800' }
+        "icon": "icon/info.png",
+        "title": "Entrada",
+        "text": "",
+        "voiceText": "",
+        "media": []
+      },
+      {
+        "position": {
+          "x": 200,
+          "y": 0,
+          "z": -300
+        },
+        "icon": "icon/info.png",
+        "title": "Ingreso",
+        "text": "",
+        "voiceText": "",
+        "media": []
+      }
           ]
         }
-      ]
     }
-  }
-};
+  };
