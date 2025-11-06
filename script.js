@@ -154,7 +154,7 @@ function createSphere() {
 }
 
 // ============================================
-// CREAR HOTSPOTS
+// CREAR HOTSPOTS CON ICONOS
 // ============================================
 
 function createHotspots() {
@@ -169,20 +169,46 @@ function createHotspots() {
   }
 
   sceneData.hotspots.forEach((hotspot, index) => {
-    const geometry = new THREE.SphereGeometry(15, 32, 32);
-    const material = new THREE.MeshBasicMaterial({
-      color: 0x4CAF50,
-      transparent: true,
-      opacity: 0.8
-    });
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(hotspot.position.x, hotspot.position.y, hotspot.position.z);
-    mesh.userData = { hotspot: hotspot, index: index };
-    scene.add(mesh);
-    hotspotObjects.push(mesh);
+    // Crear sprite con icono
+    const iconPath = hotspot.icon || 'icon/info.png';
+    const textureLoader = new THREE.TextureLoader();
+    
+    textureLoader.load(
+      iconPath,
+      (texture) => {
+        const spriteMaterial = new THREE.SpriteMaterial({ 
+          map: texture,
+          transparent: true,
+          opacity: 0.9
+        });
+        const sprite = new THREE.Sprite(spriteMaterial);
+        
+        // Tamaño del icono
+        sprite.scale.set(30, 30, 1);
+        sprite.position.set(
+          hotspot.position.x, 
+          hotspot.position.y, 
+          hotspot.position.z
+        );
+        
+        sprite.userData = { hotspot: hotspot, index: index };
+        
+        // Animación de flotación
+        sprite.userData.originalY = hotspot.position.y;
+        sprite.userData.time = Math.random() * Math.PI * 2;
+        
+        scene.add(sprite);
+        hotspotObjects.push(sprite);
+      },
+      undefined,
+      (error) => {
+        console.error(`Error cargando icono ${iconPath}:`, error);
+        // Fallback: crear esfera si el icono falla
+        createFallbackHotspot(hotspot, index);
+      }
+    );
   });
 }
-
 // ============================================
 // EVENT LISTENERS
 // ============================================
@@ -464,6 +490,22 @@ function toggleVideoPlayPause() {
 function toggleVideoMute() {
   if (!currentVideo) return;
   currentVideo.muted = !currentVideo.muted;
+}
+
+// ============================================
+// ANIMACIÓN DE HOTSPOTS
+// ============================================
+
+function animateHotspots() {
+  hotspotObjects.forEach(obj => {
+    if (obj.userData.time !== undefined) {
+      obj.userData.time += 0.01;
+      obj.position.y = obj.userData.originalY + Math.sin(obj.userData.time) * 5;
+      
+      // Rotación suave hacia la cámara
+      obj.quaternion.copy(camera.quaternion);
+    }
+  });
 }
 
 // ============================================
