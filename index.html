@@ -12,39 +12,53 @@
 
   <!-- Encabezado -->
   <div class="header">
-    <div class="logo">La Manuela Virtual Tour - - Revive la historia entre ruinas, arte y naturaleza en un lugar lleno de misterios</div>
-   </div>
-
-  
-
-  <!-- Navegación -->
-  <div class="navigation">
-    <button class="nav-btn active" data-scene="barco">⛵ Paseo en Barco</button>
-    <button class="nav-btn" data-scene="entrada">🚪 Entrada</button>
-     <button class="nav-btn" data-scene="Casa">🚪 Casa Principal</button>
+    <div class="logo">La Manuela Virtual Tour - Revive la historia entre ruinas, arte y naturaleza</div>
   </div>
 
-  <!-- Controles de video -->
-  <div class="video-controls" id="videoControls" style="display: none;">
-    <button class="video-control-btn" id="playPauseBtn">⏸️</button>
-    <button class="video-control-btn" id="muteVideoBtn">🔊</button>
-    <div class="video-time" id="videoTime">0:00 / 0:00</div>
+  <!-- Botón de menú -->
+  <button class="menu-toggle" id="menuToggle">
+    <span class="hamburger">☰</span>
+    <span class="menu-text">Escenas</span>
+  </button>
+
+  <!-- Menú de navegación -->
+  <div class="scene-menu" id="sceneMenu">
+    <div class="menu-header">Selecciona una escena</div>
+    <div class="menu-items">
+      <div class="menu-item active" data-scene="barco">
+        <span class="menu-icon">⛵</span>
+        <span class="menu-label">Paseo en Barco</span>
+      </div>
+      <div class="menu-item" data-scene="entrada">
+        <span class="menu-icon">🚪</span>
+        <span class="menu-label">Entrada</span>
+      </div>
+      <div class="menu-item" data-scene="Casa">
+        <span class="menu-icon">🏠</span>
+        <span class="menu-label">Casa Principal</span>
+      </div>
+    </div>
   </div>
 
-  <!-- Panel del avatar -->
-  <div class="avatar-panel">
+  <!-- Panel del avatar (video) -->
+  <div class="avatar-panel" id="avatarPanel">
     <div class="avatar-container">
-      <div class="avatar-character" id="avatarChar">👨‍🌾</div>
+      <div class="avatar-character" id="avatarChar">🎥</div>
     </div>
     <div class="avatar-text" id="avatarText">
       ¡Bienvenido a nuestro tour virtual! Soy tu guía. Haz clic en los puntos verdes para explorar.
     </div>
-    <div class="audio-visualizer" id="audioVisualizer"></div>
     <div class="avatar-controls">
-      <button class="avatar-btn" id="playAudioBtn">▶️ Escuchar</button>
-      <button class="avatar-btn" id="muteBtn">🔊</button>
+      <button class="avatar-btn" id="playAvatarBtn" title="Reproducir/Pausar">▶️</button>
+      <button class="avatar-btn" id="muteAvatarBtn" title="Silenciar">🔊</button>
+      <button class="avatar-btn close-btn" id="closeAvatarBtn" title="Minimizar">✕</button>
     </div>
   </div>
+
+  <!-- Botón flotante del avatar -->
+  <button class="avatar-floating-btn" id="avatarFloatingBtn" style="display: none;">
+    🎥
+  </button>
 
   <!-- Modal de información -->
   <div class="info-modal" id="infoModal">
@@ -75,8 +89,8 @@
   </div>
 
   <!-- Librerías y scripts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="./data.js"></script>
-<script src="./script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="./data.js"></script>
+  <script src="./script.js"></script>
 </body>
 </html>
