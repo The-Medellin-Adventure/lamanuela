@@ -260,7 +260,10 @@ function setupEventListeners() {
   });
 
   // Menú de navegación
-  document.getElementById('menuToggle').addEventListener('click', toggleMenu);
+  const menuToggle = document.getElementById('menuToggle');
+  if (menuToggle) {
+    menuToggle.addEventListener('click', toggleMenu);
+  }
   
   document.querySelectorAll('.menu-item').forEach(item => {
     item.addEventListener('click', () => {
@@ -275,12 +278,17 @@ function setupEventListeners() {
   });
 
   // Controles de avatar video
-  document.getElementById('playAvatarBtn').addEventListener('click', toggleAvatarVideo);
-  document.getElementById('muteAvatarBtn').addEventListener('click', toggleAvatarMute);
-  document.getElementById('closeAvatarBtn').addEventListener('click', minimizeAvatarPanel);
-  document.getElementById('avatarFloatingBtn').addEventListener('click', restoreAvatarPanel);
-
-  document.getElementById('modalAudioBtn').addEventListener('click', playModalAudio);
+  const playAvatarBtn = document.getElementById('playAvatarBtn');
+  const muteAvatarBtn = document.getElementById('muteAvatarBtn');
+  const closeAvatarBtn = document.getElementById('closeAvatarBtn');
+  const avatarFloatingBtn = document.getElementById('avatarFloatingBtn');
+  const modalAudioBtn = document.getElementById('modalAudioBtn');
+  
+  if (playAvatarBtn) playAvatarBtn.addEventListener('click', toggleAvatarVideo);
+  if (muteAvatarBtn) muteAvatarBtn.addEventListener('click', toggleAvatarMute);
+  if (closeAvatarBtn) closeAvatarBtn.addEventListener('click', minimizeAvatarPanel);
+  if (avatarFloatingBtn) avatarFloatingBtn.addEventListener('click', restoreAvatarPanel);
+  if (modalAudioBtn) modalAudioBtn.addEventListener('click', playModalAudio);
   window.addEventListener('resize', onWindowResize);
 }
 
