@@ -55,7 +55,7 @@ body {
   gap: 10px;
   transition: all 0.3s;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  z-index: 101;
+  z-index: 151;
 }
 
 .menu-toggle:hover {
@@ -81,10 +81,10 @@ body {
   backdrop-filter: blur(10px);
   border-radius: 15px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  z-index: 99;
+  z-index: 150;
   max-width: 300px;
   transform: translateX(-350px);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
   opacity: 0;
   pointer-events: none;
 }
