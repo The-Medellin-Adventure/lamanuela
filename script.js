@@ -34,10 +34,10 @@ let isAvatarVideoPaused = false;
 
 function setupAvatar() {
   if (window.APP_DATA?.avatarConfig?.videoUrl) {
-    const avatarContainer = document.querySelector('.avatar-video-container');
+    const avatarContainer = document.querySelector('.avatar-container');
     if (avatarContainer) {
       avatarContainer.innerHTML = `
-        <video id="avatarVideo" loop playsinline 
+        <video id="avatarVideo" autoplay loop muted playsinline 
                style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;">
           <source src="${window.APP_DATA.avatarConfig.videoUrl}" type="video/mp4">
         </video>
