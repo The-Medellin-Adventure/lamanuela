@@ -15,7 +15,7 @@ if (Object.keys(scenes).length === 0) {
 // ============================================
 
 let scene, camera, renderer, sphere, hotspotObjects = [];
-let currentScene = Object.keys(scenes)[0] || 'barco'; // Tomar la primera escena disponible
+let currentScene = Object.keys(scenes)[0] || 'barco';
 let isVRMode = false;
 let currentCarouselIndex = 0;
 let currentCarouselMedia = [];
@@ -26,6 +26,7 @@ let isModalAudioPlaying = false;
 let currentVideoTexture = null;
 let currentVideo = null;
 let avatarVideoElement = null;
+let isAvatarVideoPaused = false;
 
 // ============================================
 // CONFIGURACIÓN DE AVATAR
@@ -33,10 +34,10 @@ let avatarVideoElement = null;
 
 function setupAvatar() {
   if (window.APP_DATA?.avatarConfig?.videoUrl) {
-    const avatarContainer = document.querySelector('.avatar-container');
+    const avatarContainer = document.querySelector('.avatar-video-container');
     if (avatarContainer) {
       avatarContainer.innerHTML = `
-        <video id="avatarVideo" autoplay loop muted playsinline 
+        <video id="avatarVideo" loop playsinline 
                style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;">
           <source src="${window.APP_DATA.avatarConfig.videoUrl}" type="video/mp4">
         </video>
@@ -71,7 +72,6 @@ function init() {
   createSphere();
   createHotspots();
   setupEventListeners();
-  updateAvatarText();
 
   setTimeout(() => {
     document.getElementById('loading').style.display = 'none';
@@ -90,7 +90,6 @@ function createSphere() {
 
   const sceneData = scenes[currentScene];
   
-  // Validar que la escena existe
   if (!sceneData) {
     console.error(`Escena "${currentScene}" no encontrada`);
     alert(`Error: La escena "${currentScene}" no existe. Verifica tu configuración.`);
@@ -113,7 +112,9 @@ function createSphere() {
     video.loop = true;
     video.muted = false;
     video.playsInline = true;
+    video.autoplay = true;
 
+    // Intentar reproducir automáticamente
     video.play().catch(() => {
       console.log('Esperando interacción del usuario para reproducir video');
       document.addEventListener(
@@ -133,16 +134,11 @@ function createSphere() {
     currentVideoTexture = videoTexture;
 
     material = new THREE.MeshBasicMaterial({ map: videoTexture });
-    
-    // Mostrar controles de video
-    document.getElementById('videoControls').style.display = 'flex';
   } else if (sceneData.image) {
     const texture = new THREE.TextureLoader().load(sceneData.image);
     material = new THREE.MeshBasicMaterial({ map: texture });
-    document.getElementById('videoControls').style.display = 'none';
   } else {
     material = new THREE.MeshBasicMaterial({ color: sceneData.color || 0x4A90E2 });
-    document.getElementById('videoControls').style.display = 'none';
   }
 
   if (sphere) {
@@ -169,7 +165,6 @@ function createHotspots() {
   }
 
   sceneData.hotspots.forEach((hotspot, index) => {
-    // Crear sprite con icono
     const iconPath = hotspot.icon || 'icon/info.png';
     const textureLoader = new THREE.TextureLoader();
     
@@ -183,7 +178,6 @@ function createHotspots() {
         });
         const sprite = new THREE.Sprite(spriteMaterial);
         
-        // Tamaño del icono
         sprite.scale.set(30, 30, 1);
         sprite.position.set(
           hotspot.position.x, 
@@ -192,8 +186,6 @@ function createHotspots() {
         );
         
         sprite.userData = { hotspot: hotspot, index: index };
-        
-        // Animación de flotación
         sprite.userData.originalY = hotspot.position.y;
         sprite.userData.time = Math.random() * Math.PI * 2;
         
@@ -203,12 +195,11 @@ function createHotspots() {
       undefined,
       (error) => {
         console.error(`Error cargando icono ${iconPath}:`, error);
-        // Fallback: crear esfera si el icono falla
-        createFallbackHotspot(hotspot, index);
       }
     );
   });
 }
+
 // ============================================
 // EVENT LISTENERS
 // ============================================
@@ -268,26 +259,93 @@ function setupEventListeners() {
     isDragging = false;
   });
 
-  // Botones de navegación
-  document.querySelectorAll('.nav-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const sceneId = btn.dataset.scene;
+  // Menú de navegación
+  document.getElementById('menuToggle').addEventListener('click', toggleMenu);
+  
+  document.querySelectorAll('.menu-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const sceneId = item.dataset.scene;
       if (scenes[sceneId]) {
         changeScene(sceneId);
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-      } else {
-        alert(`La escena "${sceneId}" no existe`);
+        document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        toggleMenu(); // Cerrar menú después de seleccionar
       }
     });
   });
 
-  document.getElementById('playAudioBtn').addEventListener('click', playAvatarAudio);
-  document.getElementById('muteBtn').addEventListener('click', toggleMute);
+  // Controles de avatar video
+  document.getElementById('playAvatarBtn').addEventListener('click', toggleAvatarVideo);
+  document.getElementById('muteAvatarBtn').addEventListener('click', toggleAvatarMute);
+  document.getElementById('closeAvatarBtn').addEventListener('click', minimizeAvatarPanel);
+  document.getElementById('avatarFloatingBtn').addEventListener('click', restoreAvatarPanel);
+
   document.getElementById('modalAudioBtn').addEventListener('click', playModalAudio);
-  document.getElementById('playPauseBtn').addEventListener('click', toggleVideoPlayPause);
-  document.getElementById('muteVideoBtn').addEventListener('click', toggleVideoMute);
   window.addEventListener('resize', onWindowResize);
+}
+
+// ============================================
+// FUNCIONES DE MENÚ
+// ============================================
+
+function toggleMenu() {
+  const menu = document.getElementById('sceneMenu');
+  const isOpen = menu.classList.contains('open');
+  
+  if (isOpen) {
+    menu.classList.remove('open');
+  } else {
+    menu.classList.add('open');
+  }
+}
+
+// ============================================
+// FUNCIONES DE AVATAR VIDEO
+// ============================================
+
+function toggleAvatarVideo() {
+  if (!avatarVideoElement) return;
+  
+  const btn = document.getElementById('playAvatarBtn');
+  
+  if (avatarVideoElement.paused) {
+    avatarVideoElement.play();
+    btn.textContent = '⏸️';
+    isAvatarVideoPaused = false;
+  } else {
+    avatarVideoElement.pause();
+    btn.textContent = '▶️';
+    isAvatarVideoPaused = true;
+  }
+}
+
+function toggleAvatarMute() {
+  if (!avatarVideoElement) return;
+  
+  const btn = document.getElementById('muteAvatarBtn');
+  avatarVideoElement.muted = !avatarVideoElement.muted;
+  btn.textContent = avatarVideoElement.muted ? '🔇' : '🔊';
+}
+
+function minimizeAvatarPanel() {
+  if (avatarVideoElement && !avatarVideoElement.paused) {
+    avatarVideoElement.pause();
+    isAvatarVideoPaused = true;
+  }
+  
+  document.getElementById('avatarPanel').style.display = 'none';
+  document.getElementById('avatarFloatingBtn').style.display = 'flex';
+}
+
+function restoreAvatarPanel() {
+  document.getElementById('avatarPanel').style.display = 'block';
+  document.getElementById('avatarFloatingBtn').style.display = 'none';
+  
+  if (avatarVideoElement && isAvatarVideoPaused) {
+    avatarVideoElement.play();
+    document.getElementById('playAvatarBtn').textContent = '⏸️';
+    isAvatarVideoPaused = false;
+  }
 }
 
 // ============================================
@@ -308,19 +366,12 @@ function changeScene(sceneId) {
   currentScene = sceneId;
   createSphere();
   createHotspots();
-  updateAvatarText();
 }
 
 function animate() {
   requestAnimationFrame(animate);
+  animateHotspots();
   renderer.render(scene, camera);
-}
-
-function updateAvatarText() {
-  const sceneData = scenes[currentScene];
-  if (sceneData && sceneData.avatarText) {
-    document.getElementById('avatarText').textContent = sceneData.avatarText;
-  }
 }
 
 // ============================================
@@ -416,14 +467,6 @@ function prevSlide() {
 // AUDIO CON ACENTO COLOMBIANO
 // ============================================
 
-function playAvatarAudio() {
-  if (isSpeaking) return;
-  const sceneData = scenes[currentScene];
-  if (sceneData && sceneData.avatarText) {
-    speakText(sceneData.avatarText);
-  }
-}
-
 function playModalAudio() {
   if (!currentHotspotVoice) return;
   speakText(currentHotspotVoice);
@@ -437,59 +480,16 @@ function speakText(text) {
   isSpeaking = true;
   const utter = new SpeechSynthesisUtterance(text);
   
-  // Usar configuración de voz colombiana
   const voiceLang = window.APP_DATA?.avatarConfig?.voiceLang || 'es-CO';
   utter.lang = voiceLang;
-  utter.rate = 0.95; // Un poco más lento para acento colombiano
-  utter.pitch = 1.1; // Tono ligeramente más alto
+  utter.rate = 0.95;
+  utter.pitch = 1.1;
   
   utter.onend = () => {
     isSpeaking = false;
-    if (avatarVideoElement) {
-      avatarVideoElement.style.filter = 'none';
-    } else {
-      const avatarChar = document.getElementById('avatarChar');
-      if (avatarChar) avatarChar.classList.remove('talking');
-    }
   };
   
-  if (avatarVideoElement) {
-    avatarVideoElement.style.filter = 'brightness(1.3) saturate(1.5)';
-  } else {
-    const avatarChar = document.getElementById('avatarChar');
-    if (avatarChar) avatarChar.classList.add('talking');
-  }
-  
   speechSynthesis.speak(utter);
-}
-
-function toggleMute() {
-  speechSynthesis.cancel();
-  isSpeaking = false;
-  if (avatarVideoElement) {
-    avatarVideoElement.style.filter = 'none';
-  } else {
-    const avatarChar = document.getElementById('avatarChar');
-    if (avatarChar) avatarChar.classList.remove('talking');
-  }
-}
-
-// ============================================
-// VIDEO CONTROLS
-// ============================================
-
-function toggleVideoPlayPause() {
-  if (!currentVideo) return;
-  if (currentVideo.paused) {
-    currentVideo.play();
-  } else {
-    currentVideo.pause();
-  }
-}
-
-function toggleVideoMute() {
-  if (!currentVideo) return;
-  currentVideo.muted = !currentVideo.muted;
 }
 
 // ============================================
@@ -501,8 +501,6 @@ function animateHotspots() {
     if (obj.userData.time !== undefined) {
       obj.userData.time += 0.01;
       obj.position.y = obj.userData.originalY + Math.sin(obj.userData.time) * 5;
-      
-      // Rotación suave hacia la cámara
       obj.quaternion.copy(camera.quaternion);
     }
   });
