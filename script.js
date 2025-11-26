@@ -72,6 +72,7 @@ function init() {
   createSphere();
   createHotspots();
   setupEventListeners();
+  updateAvatarText();
 
   setTimeout(() => {
     document.getElementById('loading').style.display = 'none';
@@ -381,12 +382,21 @@ function changeScene(sceneId) {
   currentScene = sceneId;
   createSphere();
   createHotspots();
+  updateAvatarText();
 }
 
 function animate() {
   requestAnimationFrame(animate);
   animateHotspots();
   renderer.render(scene, camera);
+}
+
+function updateAvatarText() {
+  const sceneData = scenes[currentScene];
+  const avatarTextElement = document.getElementById('avatarText');
+  if (avatarTextElement && sceneData && sceneData.avatarText) {
+    avatarTextElement.textContent = sceneData.avatarText;
+  }
 }
 
 // ============================================
