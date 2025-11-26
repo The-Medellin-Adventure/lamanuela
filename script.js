@@ -298,12 +298,19 @@ function setupEventListeners() {
 
 function toggleMenu() {
   const menu = document.getElementById('sceneMenu');
+  if (!menu) {
+    console.error('Menu element not found');
+    return;
+  }
+  
   const isOpen = menu.classList.contains('open');
   
   if (isOpen) {
     menu.classList.remove('open');
+    console.log('Menu closed');
   } else {
     menu.classList.add('open');
+    console.log('Menu opened');
   }
 }
 
